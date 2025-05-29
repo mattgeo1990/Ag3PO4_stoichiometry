@@ -1,0 +1,59 @@
+
+---
+title: "Silver Amine Solution Calculator"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Purpose
+
+This R Markdown document calculates the required reagent volumes and masses to prepare a silver amine solution with specified final concentrations.
+
+## User Input
+
+```{r input}
+# Desired total volume (mL)
+total_volume_mL <- 6.25
+
+# Concentrations
+NH4OH_stock_M <- 15.326      # Stock NH4OH concentration (M)
+NH4OH_final_M <- 0.85        # Final NH4OH concentration (M)
+NH4NO3_final_M <- 0.85       # Final NH4NO3 concentration (M)
+AgNO3_final_M <- 0.20        # Final AgNO3 concentration (M)
+
+# Molar masses (g/mol)
+MW_NH4NO3 <- 80.043
+MW_AgNO3 <- 169.872
+```
+
+## Calculations
+
+```{r calculations}
+# Convert volume to liters
+total_volume_L <- total_volume_mL / 1000
+
+# Moles required
+mol_NH4OH <- NH4OH_final_M * total_volume_L
+mol_NH4NO3 <- NH4NO3_final_M * total_volume_L
+mol_AgNO3 <- AgNO3_final_M * total_volume_L
+
+# Volume of NH4OH stock needed (mL)
+vol_NH4OH_mL <- (mol_NH4OH / NH4OH_stock_M) * 1000
+
+# Masses of solids to weigh (g)
+mass_NH4NO3_g <- mol_NH4NO3 * MW_NH4NO3
+mass_AgNO3_g <- mol_AgNO3 * MW_AgNO3
+```
+
+## Results
+
+```{r results}
+cat("To prepare", total_volume_mL, "mL of silver amine solution:\n")
+cat("- Add", round(vol_NH4OH_mL, 3), "mL of", NH4OH_stock_M, "M NH4OH\n")
+cat("- Weigh", round(mass_NH4NO3_g * 1000, 1), "mg of NH4NO3\n")
+cat("- Weigh", round(mass_AgNO3_g * 1000, 1), "mg of AgNO3\n")
+cat("- Dissolve solids in ~80% of final volume, add NH4OH, mix, and dilute to", total_volume_mL, "mL with ultrapure water\n")
+```
